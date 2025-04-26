@@ -3,7 +3,7 @@ package br.edu.unipe.customer_management_spring.domain.customer;
 import java.time.LocalDate;
 import br.edu.unipe.customer_management_spring.domain.address.Address;
 import br.edu.unipe.customer_management_spring.domain.auditloginfo.AuditLogInfo;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,11 +45,11 @@ public class Customer {
     @Column(name = "birthDate", nullable = false)
     private LocalDate birthDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL) // garante que Address e AuditLogInfo sejam salvos/atualizados/removidos automaticamente com o Customer
     @JoinColumn(name = "audit_log_info_id")
     private AuditLogInfo auditLogInfo;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL) 
     @JoinColumn(name = "address_id")
     private Address address;
 
