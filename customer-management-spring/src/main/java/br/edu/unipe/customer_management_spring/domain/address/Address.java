@@ -1,5 +1,6 @@
 package br.edu.unipe.customer_management_spring.domain.address;
 
+import br.edu.unipe.customer_management_spring.domain.auditloginfo.AuditLogInfo;
 import br.edu.unipe.customer_management_spring.enums.State;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,4 +35,8 @@ public class Address {
 
     @Column(name = "postalCode", nullable = false)
     private String postalCode;
+
+    @OneToOne
+    @JoinColumn(name = "audit_log_info_id")
+    private AuditLogInfo auditLogInfo;
 }
