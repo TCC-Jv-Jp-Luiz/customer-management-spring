@@ -1,5 +1,9 @@
 package br.edu.unipe.customer_management_spring.enums;
 
+import br.edu.unipe.customer_management_spring.errors.BusinessException;
+
+import java.util.Arrays;
+
 public enum State {
 
     ACRE("AC"),
@@ -15,7 +19,7 @@ public enum State {
     MATO_GROSSO("MT"),
     MATO_GROSSO_DO_SUL("MS"),
     MINAS_GERAIS("MG"),
-    PAR("PA"),
+    PARA("PA"),
     PARAIBA("PB"),
     PARANA("PR"),
     PERNAMBUCO("PE"),
@@ -30,7 +34,25 @@ public enum State {
     SERGIPE("SE"),
     TOCANTINS("TO");
 
+    private final String abbreviation;
+
     State(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public static State fromAbbreviation(String abbreviation) {
+        for (State state : State.values()) {
+            if (state.getAbbreviation().equalsIgnoreCase(abbreviation)) {
+                return state;
+            }
+        }
+
+        String validStates = Arrays.toString(State.values()).replaceAll("^.|.$", "");
+        throw new BusinessException("Invalid state abbreviation: '" + abbreviation + "'. Valid values are: " + validStates);
     }
 
 }
