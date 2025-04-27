@@ -36,7 +36,7 @@ public class Address {
     @Column(name = "postalCode", nullable = false)
     private String postalCode;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "audit_log_info_id")
     private AuditLogInfo auditLogInfo;
 }
