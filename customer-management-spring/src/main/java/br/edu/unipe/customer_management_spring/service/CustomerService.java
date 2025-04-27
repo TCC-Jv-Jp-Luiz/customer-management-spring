@@ -6,8 +6,10 @@ import br.edu.unipe.customer_management_spring.domain.auditloginfo.AuditLogInfo;
 import br.edu.unipe.customer_management_spring.domain.customer.Customer;
 import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerInputDTO;
 import br.edu.unipe.customer_management_spring.enums.State;
+import br.edu.unipe.customer_management_spring.errors.ResourceNotFoundException;
 import br.edu.unipe.customer_management_spring.repository.customer.CustomerRepository;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -41,6 +43,32 @@ public class CustomerService {
 
         customer.setAuditLogInfo(new AuditLogInfo());
         address.setAuditLogInfo(new AuditLogInfo());
+
+        customer.setAddress(address);
+
+        return customerRepository.save(customer);
+    }
+
+    public Customer update(String publicId, CustomerInputDTO customerInputDTO) {
+        Customer customer = customerRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+        customer.setName(customerInputDTO.getName());
+        customer.setCellPhone(customerInputDTO.getCellPhone());
+        customer.setEmail(customerInputDTO.getEmail());
+        customer.setCpf(customerInputDTO.getCpf());
+        customer.setBirthDate(customerInputDTO.getBirthDate());
+
+        AddressInputDTO addressInputDTO = customerInputDTO.getAddress();
+        Address address = customer.getAddress();
+        address.setStreet(addressInputDTO.getStreet());
+        address.setComplement(addressInputDTO.getComplement());
+        address.setCity(addressInputDTO.getCity());
+        address.setPostalCode(addressInputDTO.getPostalCode());
+        address.setState(State.fromAbbreviation(addressInputDTO.getState()));
+
+        customer.getAuditLogInfo().setUpdatedAt(LocalDateTime.now());
+        address.getAuditLogInfo().setUpdatedAt(LocalDateTime.now());
 
         customer.setAddress(address);
 
