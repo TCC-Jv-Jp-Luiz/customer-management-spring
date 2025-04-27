@@ -45,7 +45,7 @@ public class Customer {
     @Column(name = "birthDate", nullable = false)
     private LocalDate birthDate;
 
-    @OneToOne(cascade = CascadeType.ALL) // garante que Address e AuditLogInfo sejam salvos/atualizados/removidos automaticamente com o Customer
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "audit_log_info_id")
     private AuditLogInfo auditLogInfo;
 

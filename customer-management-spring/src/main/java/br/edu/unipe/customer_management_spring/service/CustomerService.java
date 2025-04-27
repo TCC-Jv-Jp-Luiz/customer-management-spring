@@ -10,7 +10,6 @@ import br.edu.unipe.customer_management_spring.repository.CustomerRepository;
 
 import java.util.UUID;
 
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,38 +22,28 @@ public class CustomerService {
     }
 
     public Customer save(CustomerInputDTO customerInputDTO) {
-       
-        
         Customer customer = new Customer();
-        customer.setPublicId(UUID.randomUUID().toString());//cada cliente tem um ID único*
+        customer.setPublicId(UUID.randomUUID().toString());
         customer.setName(customerInputDTO.getName());
         customer.setCellPhone(customerInputDTO.getCellPhone());
         customer.setEmail(customerInputDTO.getEmail());
         customer.setCpf(customerInputDTO.getCpf());
         customer.setBirthDate(customerInputDTO.getBirthDate());
-        
-        
+
         AddressInputDTO addressInputDTO = customerInputDTO.getAddress();
         Address address = new Address();
-        address.setPublicId(UUID.randomUUID().toString()); 
+        address.setPublicId(UUID.randomUUID().toString());
         address.setStreet(addressInputDTO.getStreet());
         address.setComplement(addressInputDTO.getComplement());
         address.setCity(addressInputDTO.getCity());
-        address.setPostalCode(addressInputDTO.getPostalCode()); 
-        customer.setAddress(address);;
+        address.setPostalCode(addressInputDTO.getPostalCode());
+        address.setState(State.fromAbbreviation(addressInputDTO.getState()));
 
-        address.setState(State.fromAbbreviation(addressInputDTO.getState()));//lança uma exceção se o estado não for válido
-        
+        customer.setAuditLogInfo(new AuditLogInfo());
+        address.setAuditLogInfo(new AuditLogInfo());
 
-        
-         AuditLogInfo auditLogInfo = new AuditLogInfo();//cria o objeto de auditoria;
- 
-         customer.setAuditLogInfo(auditLogInfo);
-         address.setAuditLogInfo(auditLogInfo);
- 
-         
-         customer.setAddress(address);
- 
-         return CustomerRepository.save(customer);
+        customer.setAddress(address);
+
+        return CustomerRepository.save(customer);
     }
 }
