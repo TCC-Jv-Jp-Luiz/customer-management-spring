@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService {
 
-    private final CustomerRepository CustomerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
-        this.CustomerRepository = customerRepository;
+        this.customerRepository = customerRepository;
     }
 
     public Customer save(CustomerInputDTO customerInputDTO) {
@@ -44,6 +44,6 @@ public class CustomerService {
 
         customer.setAddress(address);
 
-        return CustomerRepository.save(customer);
+        return customerRepository.save(customer);
     }
 }
