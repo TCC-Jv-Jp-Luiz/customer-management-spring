@@ -6,7 +6,7 @@ import br.edu.unipe.customer_management_spring.domain.auditloginfo.AuditLogInfo;
 import br.edu.unipe.customer_management_spring.domain.customer.Customer;
 import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerInputDTO;
 import br.edu.unipe.customer_management_spring.enums.State;
-import br.edu.unipe.customer_management_spring.repository.CustomerRepository;
+import br.edu.unipe.customer_management_spring.repository.customer.CustomerRepository;
 
 import java.util.UUID;
 
