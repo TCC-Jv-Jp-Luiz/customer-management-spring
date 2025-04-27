@@ -12,16 +12,14 @@ import br.edu.unipe.customer_management_spring.repository.customer.CustomerRepos
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     public Customer save(CustomerInputDTO customerInputDTO) {
         Customer customer = new Customer();
