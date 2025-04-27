@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ValidationErrorResponseDTO> handleInvalidBody(BusinessException businessException) {
+    public ResponseEntity<ValidationErrorResponseDTO> handleBusinessException(BusinessException businessException) {
         ValidationErrorResponseDTO validationErrorResponse = new ValidationErrorResponseDTO();
         validationErrorResponse.addError(businessException);
 
