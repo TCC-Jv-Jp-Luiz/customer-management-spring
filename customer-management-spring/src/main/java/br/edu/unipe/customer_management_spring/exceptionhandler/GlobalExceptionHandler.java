@@ -1,6 +1,7 @@
 package br.edu.unipe.customer_management_spring.exceptionhandler;
 
 import br.edu.unipe.customer_management_spring.errors.BusinessException;
+import br.edu.unipe.customer_management_spring.errors.ResourceNotFoundException;
 import br.edu.unipe.customer_management_spring.exceptionhandler.dto.ValidationErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,10 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(validationErrorResponse);
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public void handleResourceNotFoundException(ResourceNotFoundException exception) { }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
