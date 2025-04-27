@@ -4,12 +4,15 @@ import br.edu.unipe.customer_management_spring.domain.customer.Customer;
 import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerInputDTO;
 
 import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerOutputDTO;
+import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerPaginationOutputDTO;
 import br.edu.unipe.customer_management_spring.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
@@ -23,6 +26,21 @@ public class CustomerController {
         Customer customer = customerService.save(customerInputDTO);
 
         return new ResponseEntity<CustomerOutputDTO>(new CustomerOutputDTO(customer), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<CustomerPaginationOutputDTO> listCustomers(@RequestParam(defaultValue = "0") Integer offset,
+                                                                     @RequestParam(defaultValue = "10") Integer limit) {
+        List<Customer> customerList = customerService.findAll(offset, limit);
+
+        CustomerPaginationOutputDTO customerPaginationOutputDTO = new CustomerPaginationOutputDTO(
+                limit,
+                offset,
+                customerService.count(),
+                customerList
+        );
+
+        return new ResponseEntity<CustomerPaginationOutputDTO>(customerPaginationOutputDTO, HttpStatus.OK);
     }
 
     @PutMapping("/{publicId}")
