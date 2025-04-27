@@ -49,18 +49,4 @@ public class CustomerController {
 
         return new ResponseEntity<CustomerOutputDTO>(new CustomerOutputDTO(customer), HttpStatus.OK);
     }
-
-    @DeleteMapping("/{publicId}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable String publicId) {
-        customerService.delete(publicId);
-
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-    }
-    @GetMapping("/{publicId}")
-    public ResponseEntity<CustomerOutputDTO> getCustomerByPublicId(@PathVariable String publicId) {
-        Customer customer = customerService.findByPublicId(publicId);
-
-        return new ResponseEntity<CustomerOutputDTO>(new CustomerOutputDTO(customer), HttpStatus.OK);
-    }
-
 }
