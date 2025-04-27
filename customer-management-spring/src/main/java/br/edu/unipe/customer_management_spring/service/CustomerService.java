@@ -6,10 +6,12 @@ import br.edu.unipe.customer_management_spring.domain.auditloginfo.AuditLogInfo;
 import br.edu.unipe.customer_management_spring.domain.customer.Customer;
 import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerInputDTO;
 import br.edu.unipe.customer_management_spring.enums.State;
+import br.edu.unipe.customer_management_spring.errors.BusinessException;
 import br.edu.unipe.customer_management_spring.errors.ResourceNotFoundException;
 import br.edu.unipe.customer_management_spring.repository.customer.CustomerRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
@@ -71,5 +73,17 @@ public class CustomerService {
         customer.setAddress(address);
 
         return customerRepository.save(customer);
+    }
+
+    public List<Customer> findAll(Integer offset, Integer limit) {
+        if (offset < 0 || limit <= 0) {
+            throw new BusinessException("Offset and limit must be greater than or equal to 0");
+        }
+
+        return customerRepository.findAllWithLimitAndOffset(offset, limit);
+    }
+
+    public Long count() {
+        return customerRepository.count();
     }
 }
