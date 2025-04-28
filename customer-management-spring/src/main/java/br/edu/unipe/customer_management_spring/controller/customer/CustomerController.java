@@ -30,23 +30,38 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<CustomerPaginationOutputDTO> listCustomers(@RequestParam(defaultValue = "0") Integer offset,
-                                                                     @RequestParam(defaultValue = "10") Integer limit) {
+            @RequestParam(defaultValue = "10") Integer limit) {
         List<Customer> customerList = customerService.findAll(offset, limit);
 
         CustomerPaginationOutputDTO customerPaginationOutputDTO = new CustomerPaginationOutputDTO(
                 limit,
                 offset,
                 customerService.count(),
-                customerList
-        );
+                customerList);
 
         return new ResponseEntity<CustomerPaginationOutputDTO>(customerPaginationOutputDTO, HttpStatus.OK);
     }
 
     @PutMapping("/{publicId}")
-    public ResponseEntity<CustomerOutputDTO> updateCustomer(@PathVariable String publicId, @RequestBody @Valid CustomerInputDTO customerInputDTO) {
+    public ResponseEntity<CustomerOutputDTO> updateCustomer(@PathVariable String publicId,
+            @RequestBody @Valid CustomerInputDTO customerInputDTO) {
         Customer customer = customerService.update(publicId, customerInputDTO);
 
         return new ResponseEntity<CustomerOutputDTO>(new CustomerOutputDTO(customer), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{publicId}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable String publicId) {
+        customerService.delete(publicId);
+
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{publicId}")
+    public ResponseEntity<CustomerOutputDTO> getCustomerByPublicId(@PathVariable String publicId) {
+        Customer customer = customerService.findByPublicId(publicId);
+
+        return new ResponseEntity<CustomerOutputDTO>(new CustomerOutputDTO(customer), HttpStatus.OK);
+    }
+
 }
