@@ -24,6 +24,9 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public Customer save(CustomerInputDTO customerInputDTO) {
+
+        validateCustomer(null, customerInputDTO);
+        
         Customer customer = new Customer();
         customer.setPublicId(UUID.randomUUID().toString());
         customer.setName(customerInputDTO.getName());
@@ -52,6 +55,8 @@ public class CustomerService {
     public Customer update(String publicId, CustomerInputDTO customerInputDTO) {
         Customer customer = customerRepository.findByPublicId(publicId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+                validateCustomer(customer, customerInputDTO);
 
         customer.setName(customerInputDTO.getName());
         customer.setCellPhone(customerInputDTO.getCellPhone());
@@ -85,5 +90,28 @@ public class CustomerService {
 
     public Long count() {
         return customerRepository.count();
+    }
+
+    public Customer delete(String publicId) {
+        Customer customer = customerRepository.findByPublicId(publicId).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+        customerRepository.delete(customer);
+        return customer;
+    }
+
+    public Customer findByPublicId(String publicId) {
+        return customerRepository.findByPublicId(publicId).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+    }
+
+    private void validateCustomer(Customer customer, CustomerInputDTO dto) {
+        if (customerRepository.existsByEmail(dto.getEmail()) && (customer == null || !customer.getEmail().equals(dto.getEmail()))) {
+            throw new BusinessException("Email already registered");
+        }
+        if (customerRepository.existsByCpf(dto.getCpf()) && (customer == null || !customer.getCpf().equals(dto.getCpf()))) {
+            throw new BusinessException("CPF already registered");
+        }
+        if (customerRepository.existsByCellPhone(dto.getCellPhone()) && (customer == null || !customer.getCellPhone().equals(dto.getCellPhone()))) {
+            throw new BusinessException("Cell phone already registered");
+        }
     }
 }
