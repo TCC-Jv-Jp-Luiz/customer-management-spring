@@ -19,8 +19,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findAllWithLimitAndOffset(@Param("offset") int offset, @Param("limit") int limit);
 
     boolean existsByEmail(String email);
+<<<<<<< HEAD
 
     boolean existsByCpf(String cpf);
     
+=======
+    boolean existsByCpf(String cpf);
+>>>>>>> 1b5e74d4b84b2f7b61c3332c3193db37ecd3ed6b
     boolean existsByCellPhone(String cellPhone);
 }
