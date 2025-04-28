@@ -24,6 +24,18 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public Customer save(CustomerInputDTO customerInputDTO) {
+        if(customerRepository.existsByEmail(customerInputDTO.getEmail())) {
+            throw new BusinessException("Email already registered");
+        }
+        if(customerRepository.existsByCpf(customerInputDTO.getCpf())) {
+            throw new BusinessException("CPF already registered");
+        }if (customerRepository.existsByCellPhone(customerInputDTO.getCellPhone())) {
+            throw new BusinessException("Cell phone already registered");
+            
+        }
+
+
+
         Customer customer = new Customer();
         customer.setPublicId(UUID.randomUUID().toString());
         customer.setName(customerInputDTO.getName());
