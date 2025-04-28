@@ -17,4 +17,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query(value = "SELECT * FROM customer LIMIT :limit OFFSET :offset", nativeQuery = true)
     List<Customer> findAllWithLimitAndOffset(@Param("offset") int offset, @Param("limit") int limit);
+
 }

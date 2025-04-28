@@ -86,4 +86,14 @@ public class CustomerService {
     public Long count() {
         return customerRepository.count();
     }
+    public Customer delete(String publicId) {
+        Customer customer = customerRepository.findByPublicId(publicId).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+        customerRepository.delete(customer);
+        return customer;
+    }
+
+    public Customer findByPublicId(String publicId) {
+        return customerRepository.findByPublicId(publicId).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+    }
 }
