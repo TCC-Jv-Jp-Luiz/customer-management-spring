@@ -7,6 +7,7 @@ import br.edu.unipe.customer_management_spring.domain.customer.Customer;
 import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerInputDTO;
 import br.edu.unipe.customer_management_spring.enums.State;
 import br.edu.unipe.customer_management_spring.errors.BusinessException;
+import br.edu.unipe.customer_management_spring.errors.DuplicateResourceException;
 import br.edu.unipe.customer_management_spring.errors.ResourceNotFoundException;
 import br.edu.unipe.customer_management_spring.repository.customer.CustomerRepository;
 
@@ -108,15 +109,15 @@ public class CustomerService {
     private void validateCustomer(Customer customer, CustomerInputDTO dto) {
         if (customerRepository.existsByEmail(dto.getEmail())
                 && (customer == null || !customer.getEmail().equals(dto.getEmail()))) {
-            throw new BusinessException("Email already registered");
+            throw new DuplicateResourceException("Email already registered"); 
         }
         if (customerRepository.existsByCpf(dto.getCpf())
                 && (customer == null || !customer.getCpf().equals(dto.getCpf()))) {
-            throw new BusinessException("CPF already registered");
+            throw new DuplicateResourceException("CPF already registered"); 
         }
         if (customerRepository.existsByCellPhone(dto.getCellPhone())
                 && (customer == null || !customer.getCellPhone().equals(dto.getCellPhone()))) {
-            throw new BusinessException("Cell phone already registered");
+            throw new DuplicateResourceException("Cell phone already registered"); 
         }
     }
 }
