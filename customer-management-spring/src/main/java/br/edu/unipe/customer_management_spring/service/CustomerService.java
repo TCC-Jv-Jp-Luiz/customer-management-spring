@@ -7,6 +7,7 @@ import br.edu.unipe.customer_management_spring.domain.customer.Customer;
 import br.edu.unipe.customer_management_spring.domain.customer.dto.CustomerInputDTO;
 import br.edu.unipe.customer_management_spring.enums.State;
 import br.edu.unipe.customer_management_spring.errors.BusinessException;
+import br.edu.unipe.customer_management_spring.errors.DuplicateResourceException;
 import br.edu.unipe.customer_management_spring.errors.ResourceNotFoundException;
 import br.edu.unipe.customer_management_spring.repository.customer.CustomerRepository;
 
@@ -24,6 +25,9 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public Customer save(CustomerInputDTO customerInputDTO) {
+
+        validateCustomer(null, customerInputDTO);
+
         Customer customer = new Customer();
         customer.setPublicId(UUID.randomUUID().toString());
         customer.setName(customerInputDTO.getName());
@@ -52,6 +56,8 @@ public class CustomerService {
     public Customer update(String publicId, CustomerInputDTO customerInputDTO) {
         Customer customer = customerRepository.findByPublicId(publicId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+        validateCustomer(customer, customerInputDTO);
 
         customer.setName(customerInputDTO.getName());
         customer.setCellPhone(customerInputDTO.getCellPhone());
@@ -86,14 +92,32 @@ public class CustomerService {
     public Long count() {
         return customerRepository.count();
     }
+
     public Customer delete(String publicId) {
-        Customer customer = customerRepository.findByPublicId(publicId).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        Customer customer = customerRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         customerRepository.delete(customer);
         return customer;
     }
 
     public Customer findByPublicId(String publicId) {
-        return customerRepository.findByPublicId(publicId).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        return customerRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+    }
+
+    private void validateCustomer(Customer customer, CustomerInputDTO dto) {
+        if (customerRepository.existsByEmail(dto.getEmail())
+                && (customer == null || !customer.getEmail().equals(dto.getEmail()))) {
+            throw new DuplicateResourceException("Email already registered"); 
+        }
+        if (customerRepository.existsByCpf(dto.getCpf())
+                && (customer == null || !customer.getCpf().equals(dto.getCpf()))) {
+            throw new DuplicateResourceException("CPF already registered"); 
+        }
+        if (customerRepository.existsByCellPhone(dto.getCellPhone())
+                && (customer == null || !customer.getCellPhone().equals(dto.getCellPhone()))) {
+            throw new DuplicateResourceException("Cell phone already registered"); 
+        }
     }
 }

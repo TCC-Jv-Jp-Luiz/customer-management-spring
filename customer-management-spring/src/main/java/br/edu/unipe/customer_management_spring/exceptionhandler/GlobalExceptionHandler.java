@@ -1,6 +1,7 @@
 package br.edu.unipe.customer_management_spring.exceptionhandler;
 
 import br.edu.unipe.customer_management_spring.errors.BusinessException;
+import br.edu.unipe.customer_management_spring.errors.DuplicateResourceException;
 import br.edu.unipe.customer_management_spring.errors.ResourceNotFoundException;
 import br.edu.unipe.customer_management_spring.exceptionhandler.dto.ValidationErrorResponseDTO;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public void handleException(Exception exception) {
         exception.printStackTrace();
+
+        
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class) 
+    public ResponseEntity<ValidationErrorResponseDTO> handleDuplicateResourceException(DuplicateResourceException ex) {
+        ValidationErrorResponseDTO validationErrorResponse = new ValidationErrorResponseDTO();
+        validationErrorResponse.addError("duplicate_resource", ex.getMessage()); 
+        return new ResponseEntity<>(validationErrorResponse, HttpStatus.CONFLICT); 
     }
 
 }
