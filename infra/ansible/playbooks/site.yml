@@ -1,0 +1,12 @@
+---
+- name: Deploy Spring application
+  hosts: spring
+  become: true
+  vars_files:
+    - ../vars/main.yml
+
+  roles:
+    - common
+    - java
+    - docker
+    - spring

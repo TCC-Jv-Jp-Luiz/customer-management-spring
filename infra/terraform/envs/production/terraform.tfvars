@@ -1,0 +1,6 @@
+project         = "strong-summer-458913-d2"
+region          = "us-central1"
+zone            = "us-central1-f"
+ssh_user        = "joao"
+pub_key_file    = "~/.ssh/id_ed25519.pub"
+credential_file = "./keys.json"

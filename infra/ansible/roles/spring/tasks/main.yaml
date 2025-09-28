@@ -1,0 +1,42 @@
+---
+
+- name: Clone Spring repository
+  git:
+    repo: "{{ spring_repo_url }}"
+    dest: "{{ spring_app_dir }}"
+    version: "{{ spring_repo_version | default('main') }}"
+    accept_hostkey: yes
+    key_file: "{{ ssh_private_key_path }}"
+
+
+- name: Start only the database container
+  shell: docker compose up -d db
+  args:
+    chdir: "{{ spring_app_dir }}/customer-management-spring/"
+
+- name: Ensure mvnw is accessible
+  file:
+    path: "{{ spring_app_dir }}/customer-management-spring/mvnw"
+    mode: 0755
+    state: file
+
+- name: Ensure project dir is accessible
+  file:
+    path: "{{ spring_app_dir }}/customer-management-spring"
+    mode: 0755
+    state: directory
+
+- name: Build Spring project
+  shell: ./mvnw clean install
+  args:
+    chdir: "{{ spring_app_dir }}/customer-management-spring/"
+  environment:
+    JAVA_HOME: /usr/lib/jvm/java-{{ java_version }}-openjdk-amd64
+    MAVEN_OPTS: -Xmx1024m
+  register: build_result
+  changed_when: "'BUILD SUCCESS' in build_result.stdout"
+
+- name: Start containers with Docker Compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ spring_app_dir }}/customer-management-spring/"
+    state: present
