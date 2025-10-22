@@ -36,7 +36,7 @@ jobs:
 
       - name: Build and run tests with Maven
         working-directory: ./customer-management-spring
-        run: mvn clean package -DskipTests=false
+        run: mvn clean package -DskipTests
 
       - name: Generate image tags
         id: meta

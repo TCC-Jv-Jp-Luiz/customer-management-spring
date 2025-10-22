@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring
-          image: luizfilipemr/customer-management-spring:1.0
+          image: jotaven/customer-management-spring:latest
           ports:
             - containerPort: 8080
           resources:
