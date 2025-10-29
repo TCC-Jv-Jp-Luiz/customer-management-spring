@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 @Data
 public class AuditLogInfoOutputDTO {
 

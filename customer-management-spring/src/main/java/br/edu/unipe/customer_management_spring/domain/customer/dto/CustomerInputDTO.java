@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 @AllArgsConstructor
 @Data
 public class CustomerInputDTO {
