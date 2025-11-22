@@ -19,7 +19,7 @@ Ambas as APIs (Spring Boot e Quarkus) foram implementadas com:
 
 ### 🔗 Repositórios relacionados
 
-- **API em Quarkus:** https://github.com/TCC-Jv-Jp-Luiz/costumer-management-quarkus
+- **API em Quarkus:** https://github.com/TCC-Jv-Jp-Luiz/customer-management-quarkus
 - **Documentação completa dos endpoints:** https://github.com/TCC-Jv-Jp-Luiz/documentation
 
 ---
