@@ -1,4 +1,4 @@
-# 📘 API de Gerenciamento de Pessoas — Spring Boot
+# 📘 API de Gerenciamento de Clientes — Spring Boot
 
 Este repositório contém a implementação da API de Gerenciamento de Pessoas desenvolvida em **Spring Boot 3.4.4**, utilizada no Trabalho de Conclusão de Curso *“Análise Comparativa de Desempenho entre Frameworks Java para APIs: Spring Boot vs. Quarkus”*.
 
