@@ -7,9 +7,7 @@ import br.edu.unipe.customer_management_spring.domain.customer.Customer;
 import lombok.Data;
 
 import java.time.LocalDate;
-import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@RegisterForReflection
 @Data
 public class CustomerOutputDTO {
 

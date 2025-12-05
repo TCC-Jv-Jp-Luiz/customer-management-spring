@@ -3,9 +3,7 @@ package br.edu.unipe.customer_management_spring.domain.address.dto;
 import br.edu.unipe.customer_management_spring.domain.address.Address;
 import br.edu.unipe.customer_management_spring.enums.State;
 import lombok.Data;
-import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@RegisterForReflection
 @Data
 public class AddressOutputDTO {
 

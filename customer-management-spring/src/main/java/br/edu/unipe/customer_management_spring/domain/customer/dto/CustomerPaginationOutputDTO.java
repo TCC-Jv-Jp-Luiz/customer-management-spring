@@ -6,9 +6,6 @@ import lombok.Getter;
 
 import java.util.List;
 
-import io.quarkus.runtime.annotations.RegisterForReflection;
-
-@RegisterForReflection
 @Getter
 public class CustomerPaginationOutputDTO {
 
