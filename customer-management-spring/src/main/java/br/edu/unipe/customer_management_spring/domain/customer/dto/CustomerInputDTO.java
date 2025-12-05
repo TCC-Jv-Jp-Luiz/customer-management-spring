@@ -16,7 +16,7 @@ public class CustomerInputDTO {
     @NotBlank(message = "name is required")
     private String name;
 
-    @Pattern(regexp = "^\\+\\d{1,3} \\d{2} \\d{4,5}-\\d{4}$")
+    @Pattern(regexp = "^\\d{2}\\d{8,9}$")
     @NotBlank(message = "'cellPhone' invalid or not provided")
     private String cellPhone;
 
